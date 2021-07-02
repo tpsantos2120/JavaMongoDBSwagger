@@ -22,7 +22,7 @@ public class SpringFoxConfig {
     }
 
     private ApiInfo info() {
-        return new ApiInfoBuilder().title("Java | MongoDB | MongoDB")
+        return new ApiInfoBuilder().title("Java | MongoDB | Spring Boot | Swagger2")
                 .description("Demo using Java, Spring boot and MongoDB")
                 .contact(new Contact("Thiago Santos", "https://github.com/tpsantos2120",
                         "contact@tsantos.dev"))
