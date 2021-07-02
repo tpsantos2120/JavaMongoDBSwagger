@@ -49,7 +49,7 @@ public class MongoDBEmployeeRepository implements EmployeeRepository {
 
     @PostConstruct
     void init() {
-        employeeCollection = client.getDatabase("test").getCollection("employees", Employee.class);
+        employeeCollection = client.getDatabase("employee_db").getCollection("employees", Employee.class);
     }
 
     @Override
