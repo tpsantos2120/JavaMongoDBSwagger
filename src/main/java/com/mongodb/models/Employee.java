@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @JsonInclude(Include.NON_NULL)
-public class Employee {
+public class Employee extends RepresentationModel<Employee> {
 
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
