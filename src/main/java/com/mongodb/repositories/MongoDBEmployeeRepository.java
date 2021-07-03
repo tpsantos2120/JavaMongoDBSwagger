@@ -49,6 +49,7 @@ public class MongoDBEmployeeRepository implements EmployeeRepository {
 
     @PostConstruct
     void init() {
+        System.out.println(client);
         employeeCollection = client.getDatabase("employee_db").getCollection("employees", Employee.class);
     }
 

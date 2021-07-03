@@ -20,6 +20,7 @@ public class SpringConfiguration {
 
     @Bean
     public MongoClient mongoClient() {
+        System.out.println(connectionString);
         CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
         return MongoClients.create(MongoClientSettings.builder()
