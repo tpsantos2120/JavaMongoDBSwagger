@@ -10,6 +10,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.WriteModel;
+import com.mongodb.controllers.EmployeeController;
 import com.mongodb.dtos.AverageAge;
 import com.mongodb.models.Employee;
 import org.bson.BsonDocument;
@@ -31,6 +32,8 @@ import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.ReturnDocument.AFTER;
 import static java.util.Arrays.asList;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Repository
 public class MongoDBEmployeeRepository implements EmployeeRepository {
@@ -73,17 +76,26 @@ public class MongoDBEmployeeRepository implements EmployeeRepository {
 
     @Override
     public List<Employee> findAll() {
-        return employeeCollection.find().into(new ArrayList<>());
+        ArrayList<Employee> employees = employeeCollection.find().into(new ArrayList<>());
+        employees.forEach(e -> e.add(linkTo(methodOn(EmployeeController.class).getEmployee(String.valueOf(e.getId()))).withSelfRel()));
+        employees.forEach(e -> e.add(linkTo(methodOn(EmployeeController.class).getEmployees()).withRel("employees")));
+        return employees;
     }
 
     @Override
     public List<Employee> findAll(List<String> ids) {
-        return employeeCollection.find(in("_id", mapToObjectIds(ids))).into(new ArrayList<>());
+        ArrayList<Employee> employees = employeeCollection.find(in("_id", mapToObjectIds(ids))).into(new ArrayList<>());
+        employees.forEach(e -> e.add(linkTo(methodOn(EmployeeController.class).getEmployee(String.valueOf(e.getId()))).withSelfRel()));
+        employees.forEach(e -> e.add(linkTo(methodOn(EmployeeController.class).getEmployees()).withRel("employees")));
+        return employees;
     }
 
     @Override
     public Employee findOne(String id) {
-        return employeeCollection.find(eq("_id", new ObjectId(id))).first();
+        Employee employee =  employeeCollection.find(eq("_id", new ObjectId(id))).first();
+        assert employee != null;
+        employee.add(linkTo(methodOn(EmployeeController.class).getEmployees()).withRel("employees"));
+        return employee;
     }
 
     @Override

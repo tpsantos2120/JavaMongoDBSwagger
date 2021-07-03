@@ -25,14 +25,14 @@ public class EmployeeController {
 
     @PostMapping("employee")
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee postEmployee(@RequestBody Employee person) {
-        return employeeRepository.save(person);
+    public Employee postEmployee(@RequestBody Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     @PostMapping("employees")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Employee> postEmployees(@RequestBody List<Employee> persons) {
-        return employeeRepository.saveAll(persons);
+    public List<Employee> postEmployees(@RequestBody List<Employee> employees) {
+        return employeeRepository.saveAll(employees);
     }
 
     @GetMapping("employees")
